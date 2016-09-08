@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>div拖拽01版本</title>
+	<style>
+		html,body{ margin: 0; padding: 0;}
+		#box{ width: 200px; height: 200px; background-color: #000; position: absolute;}
+	</style>
+</head>
+<body>
+	<div id="box"></div>
+</body>
+<script>
+	var box = document.getElementById('box');
+	box.onmousedown = function(ev) {
+		var e = ev || window.event;
+
+		//为了让鼠标固定在div的固定位置处，而不是闪烁
+		var disX = e.clientX - box.offsetLeft;
+		var disY = e.clientY - box.offsetTop;
+
+		document.onmousemove = function(ev) {
+			var e = ev || window.event;
+
+			//鼠标移动的距离
+			var l = e.clientX - disX;
+			var t = e.clientY - disY;
+
+			//判断div到四个边界的问题
+			if(l < 0) {
+				l = 0;
+			} else if(l > (document.documentElement.clientWidth - box.offsetWidth)) {
+				l = document.documentElement.clientWidth - box.offsetWidth;
+			}
+
+			if(t < 0) {
+				t = 0;
+			} else if(t > (document.documentElement.clientHeight - box.offsetHeight)) {
+				t = document.documentElement.clientHeight - box.offsetHeight;
+			}
+
+			box.style.left = l + 'px';
+			box.style.top = t + 'px';
+
+		}
+		document.onmouseup = function() {
+			document.onmousemove = null;
+			document.onmouseup = null;
+		}
+	}
+</script>
+</html>
